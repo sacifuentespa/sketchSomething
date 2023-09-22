@@ -1,0 +1,23 @@
+
+/*added border to check the grid visually*/
+.grid-item {
+    border: 1px solid #000;
+}
+
+.grid-item:hover {
+    background-color: grey;
+}
+
+.sketchSpace {
+    border: 1px solid #000;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
