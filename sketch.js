@@ -1,4 +1,18 @@
-const container = document.querySelector('.sketchSpace')
+const container = document.querySelector('.sketchSpace');
+const selection = document.querySelector('select');
+const OPTIONSAMOUNT = 101;
+
+//initial column and rows value
+let desiredColumns = 16;
+
+function addOptionsSelect() {
+    for (let i = 1; i < OPTIONSAMOUNT; i++) {
+        const option = document.createElement('option');
+        option.textContent = `${i}`;
+        selection.appendChild(option);
+    }
+    selection.addEventListener('change', selectNumberOfColumns)
+}
 
 // Function to calculate grid dimensions based on screen size
 function calculateGridDimensions() {
@@ -10,36 +24,46 @@ function calculateGridDimensions() {
 }
 
 // Function to create and append a dynamic grid
-function createDynamicGrid() {
+function createDynamicGrid(desiredColumns) {
+    container.innerHTML = '';
     const gridSize = calculateGridDimensions();
-    //This could 
-    const numCols = 16; // Number of columns
-    const cellSize = (gridSize / numCols)-2; // Calculate the size of each cell
+    const cellSize = (gridSize / desiredColumns) - 2; // Calculate the size of each cell
 
     container.style.width = `${gridSize}px`;
     container.style.height = `${gridSize}px`;
 
-    for (let i = 0; i < numCols * numCols; i++) {
+    for (let i = 0; i < desiredColumns * desiredColumns; i++) {
         const gridItem = document.createElement("div");
         gridItem.classList.add("grid-item");
         gridItem.style.width = `${cellSize}px`;
         gridItem.style.height = `${cellSize}px`;
         container.appendChild(gridItem);
     }
+    const cells = document.querySelectorAll(".grid-item");
+    cells.forEach(function (cell) {
+    cell.addEventListener('click', addCellColor);
+})
 
 }
 
-function addCellColor(e){
+function addCellColor(e) {
     const cell = e.currentTarget
     cell.style.backgroundColor = 'black';
 }
 
+//Add the options to the select
+addOptionsSelect();
 // Call the function initially and whenever the window is resized
-createDynamicGrid();
+createDynamicGrid(desiredColumns);
+
+function selectNumberOfColumns(e) {
+    desiredColumns = e.target.value;
+    console.log(desiredColumns);
+    createDynamicGrid(desiredColumns);
+}
 
 window.addEventListener("resize", createDynamicGrid);
-const cells = document.querySelectorAll(".grid-item");
-cells.forEach(function(cell){
-    cell.addEventListener('click', addCellColor);
-})
+
+
+
 
