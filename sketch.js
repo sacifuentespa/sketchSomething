@@ -1,6 +1,7 @@
 const container = document.querySelector('.sketchSpace');
 const selection = document.querySelector('select');
 const OPTIONSAMOUNT = 101;
+let isMouseDown = false;
 
 //initial column and rows value
 let desiredColumns = 16;
@@ -19,7 +20,6 @@ function calculateGridDimensions() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const gridSize = Math.min(screenWidth, screenHeight) * 0.9; // Adjust the factor as needed
-    console.log(gridSize);
     return gridSize;
 }
 
@@ -28,7 +28,9 @@ function createDynamicGrid(desiredColumns) {
     container.innerHTML = '';
     const gridSize = calculateGridDimensions();
     const cellSize = (gridSize / desiredColumns) - 2; // Calculate the size of each cell
-
+    console.log(desiredColumns);
+    console.log(gridSize);
+    console.log(cellSize);
     container.style.width = `${gridSize}px`;
     container.style.height = `${gridSize}px`;
 
@@ -41,15 +43,23 @@ function createDynamicGrid(desiredColumns) {
     }
     const cells = document.querySelectorAll(".grid-item");
     cells.forEach(function (cell) {
-    cell.addEventListener('click', addCellColor);
-})
-
+        cell.addEventListener('mousedown', addCellColor);
+        cell.addEventListener('mousedown', () => isMouseDown = true);
+        cell.addEventListener('mouseup', () => isMouseDown = false);
+        cell.addEventListener('mousemove', (e)=>{
+            if(isMouseDown){
+                addCellColor(e);
+            }
+        }
+        )
+    })
 }
 
 function addCellColor(e) {
     const cell = e.currentTarget
     cell.style.backgroundColor = 'black';
 }
+
 
 //Add the options to the select
 addOptionsSelect();
@@ -62,7 +72,7 @@ function selectNumberOfColumns(e) {
     createDynamicGrid(desiredColumns);
 }
 
-window.addEventListener("resize", createDynamicGrid);
+window.addEventListener("resize",()=> createDynamicGrid(desiredColumns));
 
 
 
