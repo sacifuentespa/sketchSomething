@@ -1,7 +1,8 @@
 
 /*added border to check the grid visually*/
 .grid-item {
-    border: 1px solid #000;
+    border: 0px solid white;
+
 }
 
 .grid-item:hover {
@@ -13,6 +14,7 @@
     display: flex;
     flex-wrap: wrap;
     flex: 1;
+    margin: 1em;
 }
 
 body{
@@ -20,4 +22,15 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.userSelections{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.webSpace{
+    display: flex;
 }
