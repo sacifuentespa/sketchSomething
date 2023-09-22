@@ -3,9 +3,9 @@ const selection = document.querySelector('select');
 const OPTIONSAMOUNT = 101;
 const FLOORFACTOR = 1000000000; //added for the cells to fit the grid when large numbers appear
 const colorSelector = document.querySelector('input');
+const clearButton = document.querySelector('button');
 let colorSelected = colorSelector.value;
 let isMouseDown = false;
-
 
 //initial column and rows value
 let desiredColumns = 16;
@@ -31,10 +31,7 @@ function calculateGridDimensions() {
 function createDynamicGrid(desiredColumns) {
     container.innerHTML = '';
     const gridSize = calculateGridDimensions();
-    const cellSize = Math.floor((gridSize / desiredColumns)*FLOORFACTOR)/FLOORFACTOR; // Calculate the size of each cell
-    console.log(desiredColumns);
-    console.log(gridSize);
-    console.log(cellSize);
+    const cellSize = Math.floor((gridSize / desiredColumns) * FLOORFACTOR) / FLOORFACTOR; // Calculate the size of each cell
     container.style.width = `${gridSize}px`;
     container.style.height = `${gridSize}px`;
 
@@ -51,8 +48,8 @@ function createDynamicGrid(desiredColumns) {
         cell.addEventListener('mousedown', addCellColor);
         cell.addEventListener('mousedown', () => isMouseDown = true);
         window.addEventListener('mouseup', () => isMouseDown = false);
-        cell.addEventListener('mousemove', (e)=>{
-            if(isMouseDown){
+        cell.addEventListener('mousemove', (e) => {
+            if (isMouseDown) {
                 addCellColor(e);
             }
         }
@@ -65,22 +62,28 @@ function addCellColor(e) {
     cell.style.backgroundColor = colorSelected;
 }
 
-
 function selectNumberOfColumns(e) {
     desiredColumns = e.target.value;
-    
+
     createDynamicGrid(desiredColumns);
 }
 
-function selectColor(e){
+function selectColor(e) {
     colorSelected = e.target.value
 }
 
-window.addEventListener("resize",()=> createDynamicGrid(desiredColumns));
+function clearSketch(cells) {
+    cells = document.querySelectorAll(".grid-item");
+    cells.forEach(function (cell) {
+        cell.style.backgroundColor = "white";
+    });
+}
 
+
+
+window.addEventListener("resize", () => createDynamicGrid(desiredColumns));
 
 colorSelector.addEventListener("change", selectColor)
-
 
 
 //Add the options to the select
@@ -88,9 +91,12 @@ addOptionsSelect();
 // Call the function initially and whenever the window is resized
 createDynamicGrid(desiredColumns);
 
+clearButton.addEventListener('click', clearSketch)
+
+//this for preventing the drag event to suddenly fire
 container.onmousedown = (e) => {
-    isMouseDown = true; 
+    isMouseDown = true;
     e.preventDefault();
-  };
+};
 
 
