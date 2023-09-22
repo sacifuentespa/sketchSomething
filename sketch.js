@@ -43,6 +43,7 @@ function createDynamicGrid(desiredColumns) {
         gridItem.classList.add("grid-item");
         gridItem.style.width = `${cellSize}px`;
         gridItem.style.height = `${cellSize}px`;
+        gridItem.setAttribute("draggable", "false")
         container.appendChild(gridItem);
     }
     const cells = document.querySelectorAll(".grid-item");
@@ -87,5 +88,9 @@ addOptionsSelect();
 // Call the function initially and whenever the window is resized
 createDynamicGrid(desiredColumns);
 
+container.onmousedown = (e) => {
+    isMouseDown = true; 
+    e.preventDefault();
+  };
 
 
