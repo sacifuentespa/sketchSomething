@@ -31,18 +31,21 @@ function calculateGridDimensions() {
 function createDynamicGrid(desiredColumns) {
     container.innerHTML = '';
     const gridSize = calculateGridDimensions();
-    const cellSize = Math.floor((gridSize / desiredColumns) * FLOORFACTOR) / FLOORFACTOR; // Calculate the size of each cell
     container.style.width = `${gridSize}px`;
     container.style.height = `${gridSize}px`;
 
-    for (let i = 0; i < desiredColumns * desiredColumns; i++) {
+    const columnSize = `repeat(${desiredColumns}, 1fr)`;
+    container.style.gridTemplateColumns = columnSize;
+    container.style.gridTemplateRows = columnSize;
+    const totalGridItems = desiredColumns * desiredColumns;
+
+    for (let i = 0;  i < totalGridItems; i++) {
         const gridItem = document.createElement("div");
         gridItem.classList.add("grid-item");
-        gridItem.style.width = `${cellSize}px`;
-        gridItem.style.height = `${cellSize}px`;
         gridItem.setAttribute("draggable", "false")
         container.appendChild(gridItem);
     }
+    
     const cells = document.querySelectorAll(".grid-item");
     cells.forEach(function (cell) {
         cell.addEventListener('mousedown', addCellColor);
@@ -79,9 +82,6 @@ function clearSketch(cells) {
     });
 }
 
-
-
-window.addEventListener("resize", () => createDynamicGrid(desiredColumns));
 
 colorSelector.addEventListener("change", selectColor)
 

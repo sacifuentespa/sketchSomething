@@ -11,9 +11,7 @@
 
 .sketchSpace {
     border: 1px solid #000;
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1;
+    display: grid;
     margin: 1em;
 }
 
